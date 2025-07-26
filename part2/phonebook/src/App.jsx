@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import personService from './services/persons'
 
 const Filter = ({ value, onChange }) => <div>filter shown with <input value={value} onChange={onChange}/></div>
 
@@ -13,7 +14,13 @@ const PersonForm = ({onSubmit, value, value1, onChange, onChange1}) => {
   )
 }
 
-const Persons = ({persons}) => <div>{persons.map(person => <div key={persons.indexOf(person)}>{person.name} {person.number}</div>)}</div>
+const Persons = ({persons, onClick}) => {
+  return (
+  <div>{persons.map(person => 
+    <div key={persons.indexOf(person)}>{person.name} {person.number} <button id="delete" onClick={onClick}>delete</button> </div>)}
+  </div>
+  )
+}
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -23,11 +30,9 @@ const App = () => {
   const [showName, setShowName] = useState(false)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    personService.getAll().then((intialPersons) => {
+      setPersons(intialPersons)
+    })
   }, [])
 
   const addInfo = (event) => {
@@ -38,11 +43,15 @@ const App = () => {
     }
     const nameObj = {
       name: newName,
-      number: newNumber
+      number: newNumber,
     }
-    setPersons(persons.concat(nameObj))
-    setNewName('')
-    setNewNumber('')
+    personService
+      .create(nameObj)
+      .then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handleNameChange = (event) => {
@@ -57,6 +66,13 @@ const App = () => {
     setNewString(event.target.value)
   }
 
+  const handleDeletion = (event) => {
+    const deleteButton = document.querySelector("#delete")
+    deleteButton.addEventListener('click', () => {
+      window.confirm(`Delete '${event.target.person.name}' ?`)
+    })
+  }
+
   const personsToShow = showName ? persons : persons.filter(person => person.name.toLowerCase().includes(newString.toLowerCase()))
   
 
@@ -67,7 +83,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm onSubmit={addInfo} value={newName} value1={newNumber} onChange={handleNameChange} onChange1={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} onClick={handleDeletion}/>
     </div>
   )
 }
