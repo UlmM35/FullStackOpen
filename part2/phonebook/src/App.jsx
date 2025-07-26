@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
 const Filter = ({ value, onChange }) => <div>filter shown with <input value={value} onChange={onChange}/></div>
 
@@ -15,16 +16,19 @@ const PersonForm = ({onSubmit, value, value1, onChange, onChange1}) => {
 const Persons = ({persons}) => <div>{persons.map(person => <div key={persons.indexOf(person)}>{person.name} {person.number}</div>)}</div>
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567'},
-    { name: 'Ada Lovelace', number: '39-44-5323523'},
-    { name: 'Dan Abramov', number: '12-43-234345'},
-    { name: 'Mary Poppendieck', number: '39-23-6423122'}
-  ]) 
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('enter a name')
   const [newNumber, setNewNumber] = useState('enter a number')
   const [newString, setNewString] = useState('')
   const [showName, setShowName] = useState(false)
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   const addInfo = (event) => {
     event.preventDefault()
