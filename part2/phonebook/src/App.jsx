@@ -17,7 +17,7 @@ const PersonForm = ({onSubmit, value, value1, onChange, onChange1}) => {
 const Persons = ({persons, onClick}) => {
   return (
   <div>{persons.map(person => 
-    <div key={persons.indexOf(person)}>{person.name} {person.number} <button id="delete" onClick={onClick}>delete</button> </div>)}
+    <div key={person.id}>{person.name} {person.number} <button value={person.name} id={person.id} onClick={onClick}>delete</button> </div>)}
   </div>
   )
 }
@@ -38,8 +38,15 @@ const App = () => {
   const addInfo = (event) => {
     event.preventDefault()
     if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
-      return
+      window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)
+      const person = persons.find(person => person.name === newName)
+      const changedPerson = { ...person, number: newNumber}
+      
+      personService
+        .update(person.id, changedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => person.name === newName ? returnedPerson : person))
+        })
     }
     const nameObj = {
       name: newName,
@@ -67,10 +74,10 @@ const App = () => {
   }
 
   const handleDeletion = (event) => {
-    const deleteButton = document.querySelector("#delete")
-    deleteButton.addEventListener('click', () => {
-      window.confirm(`Delete '${event.target.person.name}' ?`)
-    })
+    if (window.confirm(`Delete ${event.target.value} ?`)) {
+      personService.deletion(event.target.id)
+      setPersons(persons.filter(person => person.id !== event.target.id))
+    }
   }
 
   const personsToShow = showName ? persons : persons.filter(person => person.name.toLowerCase().includes(newString.toLowerCase()))
