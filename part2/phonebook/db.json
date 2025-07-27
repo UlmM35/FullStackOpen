@@ -1,19 +1,14 @@
 {
   "persons": [
     {
-      "id": "be10",
+      "id": "eea6",
       "name": "enter a name",
-      "number": "enter a number1"
+      "number": "enter a number"
     },
     {
-      "id": "0e33",
-      "name": "Arto Hellas",
-      "number": "045-13"
-    },
-    {
-      "id": "ffdb",
-      "name": "Arto Hellas",
-      "number": "045-13"
+      "id": "32cb",
+      "name": "sd",
+      "number": "sd"
     }
   ]
 }

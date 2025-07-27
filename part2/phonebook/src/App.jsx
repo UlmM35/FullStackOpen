@@ -1,33 +1,19 @@
-import axios from 'axios'
+import './index.css'
 import { useState, useEffect } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
-const Filter = ({ value, onChange }) => <div>filter shown with <input value={value} onChange={onChange}/></div>
-
-const PersonForm = ({onSubmit, value, value1, onChange, onChange1}) => {
-  return (
-    <form onSubmit={onSubmit}>
-      <div>name: <input value={value} onChange={onChange} /></div>
-      <div>number: <input value={value1} onChange={onChange1} /></div>
-      <div><button type="submit">add</button></div>
-    </form>
-  )
-}
-
-const Persons = ({persons, onClick}) => {
-  return (
-  <div>{persons.map(person => 
-    <div key={person.id}>{person.name} {person.number} <button value={person.name} id={person.id} onClick={onClick}>delete</button> </div>)}
-  </div>
-  )
-}
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('enter a name')
   const [newNumber, setNewNumber] = useState('enter a number')
   const [newString, setNewString] = useState('')
-  const [showName, setShowName] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService.getAll().then((intialPersons) => {
@@ -45,20 +31,37 @@ const App = () => {
       personService
         .update(person.id, changedPerson)
         .then(returnedPerson => {
-          setPersons(persons.map(person => person.name === newName ? returnedPerson : person))
+          setPersons(persons.map(p => p.name !== newName ? p : returnedPerson))
+          setNewName('')
+          setNewNumber('')
+          setSuccessMessage(`Changed ${person.name}'s number`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setErrorMessage(`Information of ${person.name} has already been removed from server`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
+    } else {
+      const nameObj = {
+        name: newName,
+        number: newNumber,
+      }
+      personService
+        .create(nameObj)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+          setSuccessMessage(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
         })
     }
-    const nameObj = {
-      name: newName,
-      number: newNumber,
-    }
-    personService
-      .create(nameObj)
-      .then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')
-      })
   }
 
   const handleNameChange = (event) => {
@@ -80,12 +83,16 @@ const App = () => {
     }
   }
 
+  const showName = false
+
   const personsToShow = showName ? persons : persons.filter(person => person.name.toLowerCase().includes(newString.toLowerCase()))
   
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} type='success' />
+      <Notification message={errorMessage} type='error' />
       <Filter value={newString} onChange={handleStringChange} />
       <h2>add a new</h2>
       <PersonForm onSubmit={addInfo} value={newName} value1={newNumber} onChange={handleNameChange} onChange1={handleNumberChange} />
