@@ -4,16 +4,14 @@ import { useState } from 'react'
 const Countries = ({search, countries}) => {
     const [showInfo, setShowInfo] = useState(false)
     const [countryId, setCountryId] = useState(0)
+
     const filteredCountries = search ? countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase())) : countries
 
-    const handleShow = () => {
+    const handleShow = (event) => {
+        setCountryId(event.target.id)
         setShowInfo(!showInfo)
     }
-
-    const countryThatWasClicked = (event) => {
-        setCountryId(event.target.id)
-    }
-    
+        
     if (filteredCountries.length > 10) {
         return 'Too many matches, specify another filter'
     }

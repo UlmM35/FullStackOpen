@@ -1,3 +1,5 @@
+import Weather from './Weather'
+
 const Country = ({ country, show}) => {
     if (show === false) {
         return null
@@ -11,6 +13,7 @@ const Country = ({ country, show}) => {
             <h1>Languages</h1>
             <ul>{languages.map(language => <li key={languages.indexOf(language)}>{language}</li>)}</ul>
             <img src={country.flags.png} alt={country.flags.alt} />
+            <Weather country={country}/>
         </div>
     )
 }
