@@ -26,6 +26,7 @@ let persons = [
 ]
 
 app.use(express.json())
+app.use(express.static('dist'))
 
 morgan.token('type', (req, res) => {
     return `${JSON.stringify(req.body)}`
@@ -83,7 +84,6 @@ app.post('/api/persons', (request, response) => {
 app.delete('/api/persons/:id', (request, response) => {
     const id = request.params.id
     persons = persons.filter((person) => person.id !== id)
-
     response.status(204).end()
 })
 
