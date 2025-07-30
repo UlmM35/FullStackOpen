@@ -1,4 +1,5 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 let persons = [
@@ -24,16 +25,13 @@ let persons = [
     }
 ]
 
-const requestLogger = (request, response, next) => {
-    console.log('Method:', request.method)
-    console.log('Path:  ', request.path)
-    console.log('Body:  ', request.body)
-    console.log('---')
-    next()
-}
-
 app.use(express.json())
-app.use(requestLogger)
+
+morgan.token('type', (req, res) => {
+    return `${JSON.stringify(req.body)}`
+})
+
+app.use(morgan(':method :url :status :response-time :req[head] :type'))
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
@@ -89,11 +87,6 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
 })
 
-const unknownEndPoint = (request, response) => {
-    response.status(404).send({ error: 'unknown endpoint' })
-}
-
-app.use(unknownEndPoint)
 
 const PORT = 3001
 app.listen(PORT, () => {
