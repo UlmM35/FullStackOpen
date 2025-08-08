@@ -1,10 +1,11 @@
 POST http://localhost:3003/api/blogs
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY4OTRjOTU0YjdlOGIxMDQ1NTI2NTQwMCIsImlhdCI6MTc1NDY2NjY2M30.QfV2IuiNaiHT1ZSsifE2dnUemQmEXjAo75Lk343eatU
 
 {
-    "title": "yo",
-    "author": "yo",
-    "url": "yo",
+    "title": "3432432432",
+    "author": "dsfsdfgsdg4",
+    "url": "gdsagdsgsda",
     "likes": 5,
-    "userId": "6895fb3655c34c03fb541267"
+    "userId": "6894c954b7e8b10455265400"
 }
