@@ -10,9 +10,10 @@ const User = require('../models/user')
 
 const api = supertest(app)
 
-
 describe('when there is initially some blogs saved', () => {
     beforeEach(async () => {
+    await User.deleteMany({})
+    await User.insertMany(helper.initialUsers)
     await Blog.deleteMany({})
     await Blog.insertMany(helper.initialBlogs)
 })
@@ -40,11 +41,14 @@ describe('when there is initially some blogs saved', () => {
 
     describe('addition of a new blog', () => {
         test('adding a blog post successfully creates a new blog post', async () => {
+
+        const users = await helper.usersInDb()
         const newBlog = {
             title: 'Hello',
             author: 'World',
             url: 'https://helloworld.com',
             likes: 50,
+            userId: users[0].id
         }
 
         await api
@@ -61,10 +65,12 @@ describe('when there is initially some blogs saved', () => {
     })
 
         test('if likes property is missing, it will default to 0 instead', async () => {
+            const users = await helper.usersInDb()
             const blogWithOutLikes = {
                 title: 'Sad blog post',
                 author: 'Mr.Sad',
                 url: 'https://whyamiwithoutanylikes.com',
+                userId: users[1].id 
             }
 
             await api
@@ -210,6 +216,71 @@ describe('when there is initially one user in db', () => {
     const usernames = usersAtEnd.map(u => u.username)
     assert(usernames.includes(newUser.username))
   })
+  test('creation fails with a duplicate username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const duplicateUser = {
+        username: 'root',
+        name: 'Superuser',
+        password: 'salainen'
+    }
+
+    const result = await api
+        .post('/api/users')
+        .send(duplicateUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+    
+    const usersAtEnd = await helper.usersInDb()
+
+    assert(result.body.error.includes('expected `username` to be unique'))
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
+  test('creation fails with a username that is less than 3 characters long', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const wrongUser = {
+        username: 't',
+        name: 't',
+        password: 'rteratggrea'
+    }
+
+    const result = await api
+        .post('/api/users')
+        .send(wrongUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+    
+    const usersAtEnd = await helper.usersInDb()
+
+    assert(result.body.error.includes('username/password has to be longer than 2 letters long'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
+  test('creation fails with a password that is less than 3 characters long', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const wrongUser = {
+        username: 'tgdagdagda',
+        name: 't',
+        password: 'r'
+    }
+
+    const result = await api
+        .post('/api/users')
+        .send(wrongUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+    
+    const usersAtEnd = await helper.usersInDb()
+
+    assert(result.body.error.includes('username/password has to be longer than 2 letters long'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
 })
 
 
