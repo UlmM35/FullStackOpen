@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY4OTRjOTU0YjdlOGIxMDQ1NTI2NTQwMCIsImlhdCI6MTc1NDY2NjY2M30.QfV2IuiNaiHT1ZSsifE2dnUemQmEXjAo75Lk343eatU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY4OTRjOTU0YjdlOGIxMDQ1NTI2NTQwMCIsImlhdCI6MTc1NDc3MDgyMH0.0hEr8u63SZ1ZEsWjH-4v3rhKe3B1bgoN9XxTWbl58b0
 
 {
     "title": "3432432432",

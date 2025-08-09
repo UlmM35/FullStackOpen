@@ -1,18 +1,23 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
+
+const passwordHash1 = bcrypt.hash('Pathfinder', 10)
+const passwordHash2 = bcrypt.hash('Finite', 10)
 
 const initialUsers = [
   {
     username: 'Edsger',
     name: 'Dijkstra',
-    password: 'Pathfinder'
+    password: passwordHash1
   },
   {
     username: 'Alan',
     name: 'Turing',
-    password: 'Finite'
+    password: passwordHash2
   }
 ]
+
 
 const initialBlogs = [
     {
@@ -20,17 +25,14 @@ const initialBlogs = [
       author: 'Edsger W. Dijkstra',
       url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
       likes: 5,
-      userId: `${initialUsers[0]._id}`
     },
     {
       title: 'Who wrote this?',
       author: 'Alan Turing',
       url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
       likes: 12305,
-      userId: `${initialUsers[1]._id}`
-    }
+    },
 ]
-
 
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
@@ -55,5 +57,5 @@ module.exports = {
     initialBlogs,
     blogsInDb,
     nonExistingId,
-    usersInDb
+    usersInDb,
 }
