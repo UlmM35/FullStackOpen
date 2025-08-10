@@ -135,9 +135,7 @@ describe('when there is initially some blogs saved', () => {
                 likes: 50,
             }
 
-            const result = await api.post('/api/blogs').send(newBlog)
-                .set('Authorization', `Bearer ${token}`)
-            const response = await api.get(`/api/blogs/${result.body.id}`)
+            const result = await api.post('/api/blogs').send(newBlog).set('Authorization', `Bearer ${token}`)
 
             const deletedBlog = await api.delete(`/api/blogs/${result.body.id}`).set('Authorization', `Bearer ${token}`).expect(204)
 
