@@ -8,7 +8,6 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const blog = require('../models/blog')
 
 const api = supertest(app)
 
@@ -19,6 +18,11 @@ let user
 describe('when there is initially some blogs saved', () => {
     beforeEach(async () => {
     await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user1 = new User({ username: 'root', passwordHash })
+    await user1.save()
+
     await User.insertMany(helper.initialUsers)
 
     user = await User.findOne({username: 'Edsger'})
@@ -124,23 +128,20 @@ describe('when there is initially some blogs saved', () => {
 
     describe('deletion of a blog', () => {
         test('succeeds with status code 204 if id is valid', async() => {
-            
-            const blogtoDelete = {
+            const newBlog = {
                 title: 'Hello',
                 author: 'World',
                 url: 'https://helloworld.com',
                 likes: 50,
             }
 
-            const result = await api
-                .post('/api/blogs')
-                .send(blogtoDelete)
+            const result = await api.post('/api/blogs').send(newBlog)
                 .set('Authorization', `Bearer ${token}`)
+            const response = await api.get(`/api/blogs/${result.body.id}`)
 
-            const deleteBlog = await api
-                .delete(`/api/blogs/${result.body.id}`)
-                .set('Authorization', `bearer ${token}`)
-            expect(deleteBlog.status).toBe(204)
+            const deletedBlog = await api.delete(`/api/blogs/${result.body.id}`).set('Authorization', `Bearer ${token}`).expect(204)
+
+            assert.strictEqual(deletedBlog.status, 204)
         })
     })
 
@@ -206,15 +207,6 @@ describe('when there is initially some blogs saved', () => {
 })
 
 describe('when there is initially one user in db', () => {
-  beforeEach(async () => {
-    await User.deleteMany({})
-
-    const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
-
-    await user.save()
-  })
-
   test('creation succeeds with a fresh username', async () => {
     const usersAtStart = await helper.usersInDb()
 
