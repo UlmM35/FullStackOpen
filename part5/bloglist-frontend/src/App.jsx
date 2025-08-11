@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +12,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [notification, setNotification] = useState({ message: null })
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -42,7 +44,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log(exception)
+      notify('wrong username or password', true)
     }
   }
 
@@ -60,16 +62,28 @@ const App = () => {
       url: `${url}`
     }
     try {
-      const response = await blogService.create(newBlog)
+      await blogService.create(newBlog)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      notify(`a new blog ${newBlog.title} by ${newBlog.author}`)
     } catch (exception){
-      console.log(exception)
+      notify('You need to fill out the title/author fields.', true)
     }
+  }
+
+  const notify = (message, isError = false) => {
+    setNotification({ message, isError})
+    setTimeout(() => {
+      setNotification({ message: null })
+    }, 5000)
   }
 
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification notification={notification}/>
         <form onSubmit={handleLogin}>
           <div>
             username
@@ -98,6 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification notification={notification}/>
       <div>{user.name} logged in <button onClick={handleLogOut}>log out</button></div>
       <h2>create new blogs</h2>
       <form onSubmit={handleCreate}>
