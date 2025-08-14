@@ -16,7 +16,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const App = () => {
   }
 
   const notify = (message, isError = false) => {
-    setNotification({ message, isError})
+    setNotification({ message, isError })
     setTimeout(() => {
       setNotification({ message: null })
     }, 5000)
@@ -93,21 +93,21 @@ const App = () => {
         <form onSubmit={handleLogin}>
           <div>
             username
-              <input
+            <input
               type='text'
               value={username}
               name='Username'
               onChange={({ target }) => setUsername(target.value)}
-              />
+            />
           </div>
           <div>
             password
-              <input
+            <input
               type='password'
               value={password}
               name='Password'
               onChange={({ target }) => setPassword(target.value)}
-              />
+            />
           </div>
           <button type='submit'>login</button>
         </form>

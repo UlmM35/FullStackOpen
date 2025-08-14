@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-const Blog = ({ blog, handleUpdate, handleDelete, user}) => {
+const Blog = ({ blog, handleUpdate, handleDelete, user }) => {
   const [view, setView] = useState(false)
 
   const blogStyle = {
@@ -28,7 +28,7 @@ const Blog = ({ blog, handleUpdate, handleDelete, user}) => {
 
   const deleteBlog = () => {
     window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
-    handleDelete({...blog})
+    handleDelete({ ...blog })
   }
 
   const buttonLabel = view ? 'hide' : 'view'
