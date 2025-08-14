@@ -15,7 +15,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
     )  
   }, [])
 
@@ -65,12 +65,25 @@ const App = () => {
     }
   }
 
+  const handleUpdate = async (blogObj) => {
+    const updatedBlog = await blogService.update(blogObj, blogObj.id)
+    setBlogs(blogs.map((blog) => (blog.id !== updatedBlog.id ? blog : updatedBlog)))
+  }
+
+  const handleDelete = async (blogObj) => {
+    const deletedBlog = await blogService.remove(blogObj, blogObj.id)
+    setBlogs(blogs.filter((blog) => blog.id !== deletedBlog.id))
+    notify(`Deleted ${blogObj.title} by ${blogObj.author}`)
+  }
+
   const notify = (message, isError = false) => {
     setNotification({ message, isError})
     setTimeout(() => {
       setNotification({ message: null })
     }, 5000)
   }
+
+  const blogUser = user
 
   if (user === null) {
     return (
@@ -111,7 +124,7 @@ const App = () => {
         <BlogForm handleCreate={handleCreate}/>
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleUpdate={handleUpdate} handleDelete={handleDelete} user={blogUser}/>
       )}
     </div>
   )

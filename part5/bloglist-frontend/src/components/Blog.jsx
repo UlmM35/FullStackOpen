@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleUpdate, handleDelete, user}) => {
   const [view, setView] = useState(false)
 
   const blogStyle = {
@@ -8,14 +8,30 @@ const Blog = ({ blog }) => {
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
   }
 
-  const hide = { display: view ? 'none': ''}
-  const show = { display: view ? '' : 'none'}
+  const hide = { display: view ? 'none': '' }
+  const show = { display: view ? '' : 'none' }
+  const showToCreator = { display: (user.name === blog.user.name ) ? '' : 'none' }
 
   const toggleView = () => {
     setView(!view)
+  }
+
+  const updateBlog = () => {
+    handleUpdate({
+      ...blog,
+      likes: blog.likes + 1,
+      user: blog.user
+    })
+    console.log(blog)
+    console.log(user)
+  }
+
+  const deleteBlog = () => {
+    window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
+    handleDelete({...blog})
   }
 
   const buttonLabel = view ? 'hide' : 'view'
@@ -28,8 +44,9 @@ const Blog = ({ blog }) => {
       <div style={show}>
         <div>{blog.title} <button onClick={toggleView}>{buttonLabel}</button></div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes} <button>like</button></div>
+        <div>likes {blog.likes} <button onClick={updateBlog}>like</button></div>
         <div>{blog.author}</div>
+        <button style={showToCreator} onClick={deleteBlog}>delete</button>
       </div>
     </div>
   )
