@@ -66,13 +66,13 @@ const App = () => {
   }
 
   const handleUpdate = async (blogObj) => {
-    const updatedBlog = await blogService.update(blogObj, blogObj.id)
-    setBlogs(blogs.map((blog) => (blog.id !== updatedBlog.id ? blog : updatedBlog)))
+    const updatedBlog = await blogService.update(blogObj)
+    setBlogs(blogs.map((blog) => blog.id !== updatedBlog.id ? blog : updatedBlog))
   }
 
   const handleDelete = async (blogObj) => {
-    const deletedBlog = await blogService.remove(blogObj, blogObj.id)
-    setBlogs(blogs.filter((blog) => blog.id !== deletedBlog.id))
+    await blogService.remove(blogObj)
+    setBlogs(blogs.filter((blog) => blog.id !== blogObj.id))
     notify(`Deleted ${blogObj.title} by ${blogObj.author}`)
   }
 

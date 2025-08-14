@@ -21,19 +21,19 @@ const create = async newObj => {
   return response.data
 }
 
-const update = async (blogObj, blogId) => {
-  const url = `${baseUrl}/${blogId}`
+const update = async (blogObj) => {
+  const url = `${baseUrl}/${blogObj.id}`
   const response = await axios.put(url, blogObj)
   return response.data
 }
 
-const remove = async (blogId) => {
-  const url = `${baseUrl}/${blogId}`
+const remove = async (blogObj) => {
+  const url = `${baseUrl}/${blogObj.id}`
   const config = {
     headers: { Authorization: token},
   }
 
-  const response = await axios.delete(url, blogObj, config)
+  const response = await axios.delete(url, config)
   return response.data
 }
 

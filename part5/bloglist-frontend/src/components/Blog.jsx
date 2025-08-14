@@ -23,10 +23,7 @@ const Blog = ({ blog, handleUpdate, handleDelete, user}) => {
     handleUpdate({
       ...blog,
       likes: blog.likes + 1,
-      user: blog.user
     })
-    console.log(blog)
-    console.log(user)
   }
 
   const deleteBlog = () => {
