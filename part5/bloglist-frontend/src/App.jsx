@@ -83,8 +83,6 @@ const App = () => {
     }, 5000)
   }
 
-  const blogUser = user
-
   if (user === null) {
     return (
       <div>
@@ -126,7 +124,7 @@ const App = () => {
         <BlogForm handleCreate={handleCreate}/>
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleUpdate={handleUpdate} handleDelete={handleDelete} user={blogUser}/>
+        <Blog key={blog.id} blog={blog} handleUpdate={handleUpdate} handleDelete={handleDelete} username={user.username}/>
       )}
     </div>
   )
