@@ -38,10 +38,10 @@ const Blog = ({ blog, handleUpdate, handleDelete, user }) => {
       <div style={hide} className='blogHidden'>
         {blog.title} {blog.author} <button className='viewButton' onClick={toggleView}>{buttonLabel}</button>
       </div>
-      <div style={show}>
+      <div style={show} className='blogShow'>
         <div>{blog.title} <button onClick={toggleView}>{buttonLabel}</button></div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes} <button onClick={updateBlog}>like</button></div>
+        <div className='likes'>likes {blog.likes} <button onClick={updateBlog}>like</button></div>
         <div>{blog.author}</div>
         <button style={showToCreator} onClick={deleteBlog}>delete</button>
       </div>
