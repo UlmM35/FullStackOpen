@@ -103,7 +103,7 @@ describe('Blog app', () => {
         await second.getByRole('button', { name: 'like' }).click()
 
         expect(page.locator('.blog').first()).toContainText('firstBlog')
-        expect(page.locator('.blog').nth(1)).toContainText('secondBlog')
+        expect(page.locator('.blog').last()).toContainText('secondBlog')
       })
     })
   })
