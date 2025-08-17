@@ -5,7 +5,6 @@ import anecdoteStore from './store'
 
 const store = anecdoteStore
 
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <App />
