@@ -9,9 +9,7 @@ const Filter = () => {
         event.preventDefault()
         console.log(event.target.value)
         const filter = event.target.value
-        if (filter) {
-            dispatch(filterChange(filter))
-        }
+        dispatch(filterChange(filter))
     }
     
     const style = {
