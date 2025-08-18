@@ -2,25 +2,10 @@ import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import { useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
 import { getAnecdotes, updateAnecdote } from './services/requests'
-import AnecdoteContext from './AnecdoteContext'
-import { useReducer } from 'react'
-
-const notificationReducer = (state, action) => {
-    switch (action.type) {
-        case 'VOTE':
-            return state = `anecdote '${action.payload}' voted`
-        case 'RESET':
-            return state = null
-        case 'ERROR':
-            return state = 'too short anecdote, must have length 5 or more'
-        default:
-            return state
-    }
-}
-
+import { useDispatch } from './NotificationContext'
 
 const App = () => {
-  const [notification, dispatch] = useReducer(notificationReducer, null)
+  const dispatch = useDispatch()
 
   const queryClient = useQueryClient()
 
@@ -58,7 +43,6 @@ const App = () => {
 
   return (
     <div>
-      <AnecdoteContext.Provider value={[notification, dispatch]}>
       <h3>Anecdote app</h3>
       <Notification />
       <AnecdoteForm />
@@ -74,7 +58,6 @@ const App = () => {
           </div>
         </div>
       )}
-      </AnecdoteContext.Provider>
     </div>
   )
 }

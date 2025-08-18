@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import AnecdoteContext from '../AnecdoteContext'
+import AnecdoteContext from '../NotificationContext'
 import { useReducer } from 'react'
 
 const Notification = () => {
