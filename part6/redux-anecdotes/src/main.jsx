@@ -3,10 +3,8 @@ import { Provider } from 'react-redux'
 import App from './App'
 import anecdoteStore from './store'
 
-const store = anecdoteStore
-
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
+  <Provider store={anecdoteStore}>
     <App />
   </Provider>
 )
