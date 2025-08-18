@@ -1,15 +1,18 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { createAnecdote } from '../services/requests'
+import { useContext } from 'react'
+import AnecdoteContext from '../AnecdoteContext'
 
 const AnecdoteForm = () => {
-
+  const [counter, dispatch] = useContext(AnecdoteContext)
   const queryClient = useQueryClient()
 
   const newAnecdoteMutation = useMutation({
     mutationFn: createAnecdote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
-    }
+    },
+    onError: () => dispatch({type: 'ERROR'})
   })
 
   const onCreate = (event) => {
