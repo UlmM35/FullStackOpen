@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, use } from 'react'
 import axios from 'axios'
 
 const useField = (type) => {
@@ -17,16 +17,25 @@ const useField = (type) => {
 
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
-  const baseUrl = "https://studies.cs.helsinki.fi/restcountries/api/name"
+  const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api/name'
 
   useEffect(() => {
     axios
       .get(`${baseUrl}/${name}`)
-      .then((response) => {
-        setCountry(response.data)
-      }, [])
-  })
-
+      .then(response => {
+        setCountry({
+          found: true,
+          data: response.data
+        })
+      })
+      .catch(
+        setCountry({
+          found: false,
+        })
+      )
+  }, [name])
+  
+  console.log(country)
   return country
 }
 
@@ -45,10 +54,10 @@ const Country = ({ country }) => {
 
   return (
     <div>
-      <h3>{country.data.name} </h3>
-      <div>capital {country.data.capital} </div>
+      <h3>{country.data.name.common} </h3>
+      <div>capital {country.data.capital[0]} </div>
       <div>population {country.data.population}</div> 
-      <img src={country.data.flag} height='100' alt={`flag of ${country.data.name}`}/>  
+      <img src={country.data.flags.png} height='300' alt={`flag of ${country.data.name}`}/>  
     </div>
   )
 }
