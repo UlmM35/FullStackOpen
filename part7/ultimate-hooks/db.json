@@ -1,0 +1,49 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "wdwa",
+      "id": 3
+    },
+    {
+      "content": "wdwa",
+      "id": 4
+    },
+    {
+      "content": "wdwaw",
+      "id": 5
+    },
+    {
+      "content": "wdawda",
+      "id": 6
+    },
+    {
+      "content": "hello",
+      "id": 7
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "markus",
+      "number": "015-123093",
+      "id": 3
+    }
+  ]
+}
