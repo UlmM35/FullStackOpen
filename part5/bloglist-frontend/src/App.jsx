@@ -7,13 +7,12 @@ import BlogForm from './components/BlogForm';
 import Togglable from './components/Togglable';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNotification } from './reducers/notificationReducer';
-import { initializeBlogs, createBlog } from './reducers/blogReducer';
+import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogReducer';
 
 const App = () => {
   const [user, setUser] = useState(null);
 
   const dispatch = useDispatch()
-  const blogs = useSelector(({ blogs}) => blogs) 
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -57,15 +56,11 @@ const App = () => {
   };
 
   const handleUpdate = async (blogObj) => {
-    const updatedBlog = await blogService.update(blogObj);
-    setBlogs(
-      blogs.map((blog) => (blog.id !== updatedBlog.id ? blog : updatedBlog)),
-    );
+    dispatch(likeBlog(blogObj))
   };
 
   const handleDelete = async (blogObj) => {
-    await blogService.remove(blogObj);
-    setBlogs(blogs.filter((blog) => blog.id !== blogObj.id));
+    dispatch(removeBlog(blogObj))
     dispatch(setNotification(`Deleted ${blogObj.title} by ${blogObj.author}`, false));
   };
 
