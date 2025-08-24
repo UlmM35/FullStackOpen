@@ -1,72 +1,31 @@
-import { useState, useEffect, useRef } from 'react';
-import blogService from './services/blogs';
-import loginService from './services/login';
+import { useEffect, useRef} from 'react';
 import LoginForm from './components/LoginForm';
 import BlogList from './components/BlogList';
 import BlogForm from './components/BlogForm';
 import Togglable from './components/Togglable';
+import Button from './components/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNotification } from './reducers/notificationReducer';
-import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogReducer';
+import { initializeBlogs } from './reducers/blogReducer';
+import { getUser} from './reducers/userReducer';
 
 const App = () => {
-  const [user, setUser] = useState(null);
-
   const dispatch = useDispatch()
+
+  const user = useSelector(({user}) => user)
+
+  const ref = useRef()
 
   useEffect(() => {
     dispatch(initializeBlogs())
   }, [dispatch]);
 
   useEffect(() => {
-    const loggedUserJson = window.localStorage.getItem('loggedBlogappUser');
-    if (loggedUserJson) {
-      const user = JSON.parse(loggedUserJson);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
-  }, []);
-
-  const blogFormRef = useRef()
-
-  const handleLogin = async (info) => {
-    try {
-      const user = await loginService.login(info)
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
-    } catch (exception) {
-      dispatch(setNotification('wrong username/password', true))
-    }
-  };
-
-  const handleLogOut = (event) => {
-    event.preventDefault();
-    window.localStorage.clear();
-  };
-
-  const handleCreate = async (blogObj) => {
-    blogFormRef.current.toggleVisibility();
-    try {
-      dispatch(createBlog(blogObj))
-      dispatch(setNotification(`a new blog ${blogObj.title} by ${blogObj.author}`, false));
-    } catch (exception) {
-      dispatch(setNotification('You need to fill out the title/url fields.', true));
-    }
-  };
-
-  const handleUpdate = async (blogObj) => {
-    dispatch(likeBlog(blogObj))
-  };
-
-  const handleDelete = async (blogObj) => {
-    dispatch(removeBlog(blogObj))
-    dispatch(setNotification(`Deleted ${blogObj.title} by ${blogObj.author}`, false));
-  };
+    dispatch(getUser())
+  }, [dispatch]);
 
   if (user === null) {
     return (
-      <LoginForm handleLogin={handleLogin}/>
+      <LoginForm />
     );
   }
 
@@ -74,12 +33,12 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       <div>
-        {user.name} logged in <button onClick={handleLogOut}>log out</button>
+        {user.name} logged in <Button text={'log out'}/>
       </div>
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
-          <BlogForm handleCreate={handleCreate} />
+      <Togglable buttonLabel='new blog' ref={ref}>
+          <BlogForm reference={ref}/>
       </Togglable>
-      <BlogList user={user}  handleLogOut={handleLogOut} handleCreate={handleCreate} handleUpdate={handleUpdate} handleDelete={handleDelete}/>
+      <BlogList username={user.username}/>
     </div>
   );
 };

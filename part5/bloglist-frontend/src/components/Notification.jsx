@@ -7,8 +7,6 @@ const Notification = () => {
     return null;
   }
 
-  console.log(notification)
-
   const style = {
     color: notification.isError ? 'red' : 'green',
     background: 'lightgrey',

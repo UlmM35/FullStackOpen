@@ -2,8 +2,8 @@ import { useSelector } from 'react-redux'
 import Blog from './Blog'
 import Notification from './Notification'
 
-const BlogList = ({ user, handleLogOut, handleUpdate, handleDelete}) => {
-    const blogs = useSelector(({ blogs}) => blogs)
+const BlogList = ({ username }) => {
+    const blogs = useSelector(({ blogs }) => blogs)
 
     return (
       <div>
@@ -13,9 +13,7 @@ const BlogList = ({ user, handleLogOut, handleUpdate, handleDelete}) => {
           <Blog
             key={blog.id}
             blog={blog}
-            handleUpdate={handleUpdate}
-            handleDelete={handleDelete}
-            username={user.username}
+            username={username}
             />
         ))}
       </div>
