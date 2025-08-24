@@ -6,7 +6,7 @@ import { setNotification } from '../reducers/notificationReducer';
 const Blog = ({ blog, username }) => {
   const [view, setView] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const blogStyle = {
     paddingTop: 10,
@@ -27,15 +27,17 @@ const Blog = ({ blog, username }) => {
   };
 
   const updateBlog = () => {
-    dispatch(likeBlog({
-      ...blog,
-      likes: blog.likes + 1,
-    }))
+    dispatch(
+      likeBlog({
+        ...blog,
+        likes: blog.likes + 1,
+      }),
+    );
   };
 
   const deleteBlog = () => {
     window.confirm(`Remove blog ${blog.title} by ${blog.author}?`);
-    dispatch(removeBlog({...blog}))
+    dispatch(removeBlog({ ...blog }));
     dispatch(setNotification(`Deleted ${blog.title} by ${blog.author}`, false));
   };
 

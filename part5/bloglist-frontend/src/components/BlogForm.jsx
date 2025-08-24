@@ -7,12 +7,12 @@ const BlogForm = ({ reference }) => {
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleCreate = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     reference.current.toggleVisibility();
-    dispatch(createBlog({ title: title, author: author, url: url }))
+    dispatch(createBlog({ title: title, author: author, url: url }));
     setTitle('');
     setAuthor('');
     setUrl('');
