@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { createBlog } from '../reducers/blogReducer';
 import { useDispatch } from 'react-redux';
 

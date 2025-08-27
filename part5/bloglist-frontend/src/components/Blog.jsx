@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { likeBlog, removeBlog } from '../reducers/blogReducer';
 import { setNotification } from '../reducers/notificationReducer';
+import { Link } from 'react-router-dom';
 
 const Blog = ({ blog, username }) => {
   const [view, setView] = useState(false);
@@ -46,7 +47,7 @@ const Blog = ({ blog, username }) => {
   return (
     <div style={blogStyle} className='blog'>
       <div style={hide} className='blogHidden'>
-        {blog.title} {blog.author}{' '}
+        <Link to={`blogs/${blog.id}`}>{blog.title} {blog.author} {' '}</Link>
         <button className='viewButton' onClick={toggleView}>
           {buttonLabel}
         </button>
