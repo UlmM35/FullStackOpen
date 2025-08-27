@@ -1,17 +1,33 @@
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import Button from "./Button"
+import { Navbar, Nav } from "react-bootstrap"
 
 const NavBar = () => {
 
     const user = useSelector(({ user }) => user)
+
+    const padding = {
+        padding: 5
+    }
     
     return (
-      <div style={{backgroundColor: "gray", padding: 20}}>
-        <Link style={{padding: 5}} to="/">blogs</Link>
-        <Link style={{padding: 5}} to="/users">users</Link>
-        {user.name} logged in <Button text={"log out"}/>
-      </div>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+                <Nav.Link href="#" as="span">
+                <Link style={padding} to="/">blogs</Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+                <Link style={padding} to="/users">users</Link>
+            </Nav.Link>
+            <Nav.Link>
+                <em>{user.name} logged in <Button text={'log out'}/></em>
+            </Nav.Link>
+            </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     )
 }
 

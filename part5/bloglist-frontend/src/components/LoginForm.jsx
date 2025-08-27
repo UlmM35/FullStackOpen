@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Notification from './Notification';
 import { initializeUser } from '../reducers/userReducer';
+import { Form, Button } from 'react-bootstrap'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -20,29 +21,29 @@ const LoginForm = () => {
     <div>
       <h2>Log in to application</h2>
       <Notification />
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>username</Form.Label>
+          <Form.Control
             data-testid='username-input'
             type='text'
             value={username}
             name='Username'
             onChange={({ target }) => setUsername(target.value)}
           />
-        </div>
-        <div>
-          password
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>password</Form.Label>
+          <Form.Control
             data-testid='password-input'
             type='password'
             value={password}
             name='Password'
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
-        <button type='submit'>login</button>
-      </form>
+        </Form.Group>
+        <Button variant="primary" type='submit'>login</Button>
+      </Form>
     </div>
   );
 };

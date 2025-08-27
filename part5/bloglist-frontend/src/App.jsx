@@ -29,7 +29,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='container'>
       <NavBar></NavBar>
       <h2>Blogs</h2>
       <BlogRouter />
