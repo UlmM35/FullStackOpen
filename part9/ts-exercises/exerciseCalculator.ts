@@ -8,38 +8,36 @@ interface Result {
     average: number;
 }
 
-const calculateExercises = (trainingLength: number[], target: number): Result => {
+const calculateExercises = (trainingDays: number[], target: number): Result => {
 
-    const trainedDays: number = trainingLength.filter(day => day > 0).length
-
-    let description: string;
+    const trainedDays: number = trainingDays.filter(day => day > 0).length
 
     const calculateAverage = (days: number[]): number => {
         return days.reduce((accum, curr) => accum + curr, 0)/days.length
     }
 
-    const calculateRating = (days: number[], target: number): number => {
-        const avg = calculateAverage(days)
+    const average = calculateAverage(trainingDays);
+
+    const calculateRating = (avg: number, target: number): { rating: number; description: string } => {
         if (avg >= target) {
-            description = 'good'
-            return 3
-        } else if (avg < target && avg - target < 0.5) {
-            description = 'okay'
-            return 2
+        return { rating: 3, description: 'good' };
+        } else if (target - avg < 0.5) {
+        return { rating: 2, description: 'okay' };
         } else {
-            description = 'bad'
-            return 1
+        return { rating: 1, description: 'bad' };
         }
-    }
+    };
+
+    const { rating, description } = calculateRating(average, target)
 
     const result: Result = {
-        periodLength: trainingLength.length,
+        periodLength: trainingDays.length,
         trainingDays: trainedDays,
-        success: trainingLength.length <= trainedDays,
-        rating: calculateRating(trainingLength, target),
+        success: trainingDays.length <= trainedDays,
+        rating: rating,
         ratingDescription: description,
         target: target,
-        average: trainingLength.reduce((accum, curr) => accum + curr, 0)/trainingLength.length
+        average: calculateAverage(trainingDays)
     }
 
     return result
