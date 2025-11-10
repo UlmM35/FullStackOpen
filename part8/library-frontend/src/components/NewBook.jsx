@@ -23,7 +23,10 @@ const NewBook = ({ show }) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    await createBook({ variables: {title, author, published: Number(published), genres }})
+    await createBook({ variables: {title: title.length > 4 ? title: undefined,
+      author: author.length > 3 ? author : undefined,
+      published: Number(published), 
+    genres }})
 
     setTitle('')
     setPublished('')
