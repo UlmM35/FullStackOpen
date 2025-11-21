@@ -37,7 +37,9 @@ export const CREATE_BOOK = gql`
       genres: $genres
     ) {
       title
-      author
+      author {
+        name
+      }
       published
       genres
     }
@@ -73,4 +75,24 @@ query {
     favoriteGenre
   }
 }
+`
+
+const BOOK_DETAILS = gql`
+  fragment BookDetails on Book {
+    title
+    author {
+      name
+    }
+    published
+    genres
+  }
+`
+
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      ...BookDetails
+    }
+  }
+  ${BOOK_DETAILS}
 `
