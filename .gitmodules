@@ -1,0 +1,3 @@
+[submodule "part12"]
+	path = part12
+	url = https://github.com/UlmM35/fullstack-open-part12-containers-applications.git
