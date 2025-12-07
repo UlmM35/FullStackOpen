@@ -30,19 +30,27 @@ router.get('/:id', blogFinder, async (req, res) => {
 })
 
 router.delete('/:id', blogFinder, async (req, res) => {
+  try {
     if (req.blog) {
       await req.blog.destroy()
     }
     res.status(204).end()
+  } catch (error) {
+    next(error)
+  }
 })
 
 router.put('/:id', blogFinder, async (req, res) => {
-  if (req.blog) {
-    req.blog.likes += 1
-    await req.blog.save()
-    res.json(req.blog)
-  } else {
-    res.status(404).end()
+  try {
+    if (req.blog) {
+      req.blog.likes += 1
+      await req.blog.save()
+      res.json(req.blog)
+    } else {
+      res.status(404).end()
+    }
+  } catch (error) {
+    next(error)
   }
 })
 
