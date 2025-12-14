@@ -18,10 +18,12 @@ const errorHandler = (error, request, response, next) => {
   logger.error(error.message)
 
   if (error.name === 'SequelizeValidationError') {
-    return response.status(400).send({ error: 'Validation isEmail on username failed' })
+    return response.status(400).send({ errors: error.errors.map(e => e.message) })
   }
   
-  next(error)
+  return response.status(500).json({
+    message: 'Internal server error'
+  })
 }
 
 const tokenExtractor = (req, res, next) => {
