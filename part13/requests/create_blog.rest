@@ -1,9 +1,9 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1VbG1IZXkiLCJpZCI6MSwiaWF0IjoxNzY1MjI2MTU4fQ.lfXjGrooLpofB98vRmlajch37H6AT0wZ2ZfbgGLEKvo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmt1c0BnbWFpbC5jb20iLCJpZCI6MiwiaWF0IjoxNzY2MzQ5NDYwfQ.umjJY_IdZdUp6t7V1mRrEu77MFoZTQse0n_rFAuOY0c
 
 {
-    "author": "Hello",
-    "url": "IsThisABlog?",
-    "title": "New Blog"
+    "author": "markus",
+    "url": "IsThisABl?",
+    "title": "New Bg"
 }
