@@ -1,10 +1,10 @@
 # FullStackOpen
 Exercise repository for FullStackOpen
 
-### Currently completed Parts:
+## Currently completed Parts:
 Core course (parts 0-7), GraphQL, Docker, SQL
 
-### Coming soon: 
+## Coming soon: 
 TypeScript, CI/CD
 
 ### Course certificate for parts 0-7
