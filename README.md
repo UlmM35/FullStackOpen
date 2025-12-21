@@ -1,6 +1,9 @@
 # FullStackOpen
 Exercise repository for FullStackOpen
 
+Currently completed Parts: Core course (parts 0-7), GraphQL, Docker, SQL
+Coming soon: TypeScript, CI/CD
+
 # Course certificate for parts 0-7
 <img width="800" height="800" alt="certificate-fullstack" src="https://github.com/user-attachments/assets/c74006d1-471a-430f-9248-840d1ac76d1a" />
 
