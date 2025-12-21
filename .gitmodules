@@ -1,7 +1,6 @@
 [submodule "part12"]
 	path = part12
 	url = https://github.com/UlmM35/fullstack-open-part12-containers-applications.git
-
 [submodule "part11"]
 	path = part11
 	url = https://github.com/UlmM35/full-stack-open-part11.git
