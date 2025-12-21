@@ -9,3 +9,6 @@ Exercise repository for FullStackOpen
 
 # Course certificate for Docker
 <img width="800" height="800" alt="certificate-containers" src="https://github.com/user-attachments/assets/966cf82a-fd31-4603-bb91-d09fbfe716d0" />
+
+# Course certificate for SQL
+<img width="800" height="800" alt="certificate-psql" src="https://github.com/user-attachments/assets/a8d1ec1d-484e-426d-8389-3c5c764a9b71" />
