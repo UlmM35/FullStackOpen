@@ -1,3 +1,5 @@
+import { isNotNumber } from "./utils/isNotNumber";
+
 interface Result {
     periodLength: number;
     trainingDays: number;
@@ -8,7 +10,17 @@ interface Result {
     average: number;
 }
 
-const calculateExercises = (trainingDays: number[], target: number): Result => {
+const parseArgs = (args: string[]): number[] => {
+    if (args.length < 1) throw new Error('Not enough arguments');
+
+    if (!(args.some((x) => isNotNumber(x)))) {
+        return args.map(Number);
+    } else {
+        throw new Error('Provided values were not numbers!');
+    }
+}
+
+const calculateExercises = (trainingDays: number[], target: number) => {
 
     const trainedDays: number = trainingDays.filter(day => day > 0).length
 
@@ -40,7 +52,16 @@ const calculateExercises = (trainingDays: number[], target: number): Result => {
         average: calculateAverage(trainingDays)
     }
 
-    return result
+    console.log(result)
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+    const parsedArgs = parseArgs(process.argv.slice(2));
+    calculateExercises(parsedArgs.slice(1), parsedArgs[0]);
+} catch (error: unknown) {
+    let errorMessage = 'Something bad happened.';
+    if (error instanceof Error) {
+        errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage);
+}
