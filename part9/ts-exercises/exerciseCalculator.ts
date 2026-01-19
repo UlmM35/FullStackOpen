@@ -1,6 +1,6 @@
 import { isNotNumber } from "./utils/isNotNumber";
 
-interface Result {
+export interface Result {
     periodLength: number;
     trainingDays: number;
     success: boolean;
@@ -20,7 +20,7 @@ const parseArgs = (args: string[]): number[] => {
     }
 };
 
-const calculateExercises = (trainingDays: number[], target: number) => {
+export const calculateExercises = (trainingDays: number[], target: number): Result => {
 
     const trainedDays: number = trainingDays.filter(day => day > 0).length;
 
@@ -53,9 +53,11 @@ const calculateExercises = (trainingDays: number[], target: number) => {
     };
 
     console.log(result);
+    return result;
 };
 
-try {
+if (require.main === module) {
+    try {
     const parsedArgs = parseArgs(process.argv.slice(2));
     calculateExercises(parsedArgs.slice(1), parsedArgs[0]);
 } catch (error: unknown) {
@@ -65,3 +67,5 @@ try {
     }
     console.log(errorMessage);
 }
+};
+
