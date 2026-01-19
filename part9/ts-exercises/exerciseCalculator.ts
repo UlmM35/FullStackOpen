@@ -18,15 +18,15 @@ const parseArgs = (args: string[]): number[] => {
     } else {
         throw new Error('Provided values were not numbers!');
     }
-}
+};
 
 const calculateExercises = (trainingDays: number[], target: number) => {
 
-    const trainedDays: number = trainingDays.filter(day => day > 0).length
+    const trainedDays: number = trainingDays.filter(day => day > 0).length;
 
     const calculateAverage = (days: number[]): number => {
-        return days.reduce((accum, curr) => accum + curr, 0)/days.length
-    }
+        return days.reduce((accum, curr) => accum + curr, 0)/days.length;
+    };
 
     const average = calculateAverage(trainingDays);
 
@@ -40,7 +40,7 @@ const calculateExercises = (trainingDays: number[], target: number) => {
         }
     };
 
-    const { rating, description } = calculateRating(average, target)
+    const { rating, description } = calculateRating(average, target);
 
     const result: Result = {
         periodLength: trainingDays.length,
@@ -50,10 +50,10 @@ const calculateExercises = (trainingDays: number[], target: number) => {
         ratingDescription: description,
         target: target,
         average: calculateAverage(trainingDays)
-    }
+    };
 
-    console.log(result)
-}
+    console.log(result);
+};
 
 try {
     const parsedArgs = parseArgs(process.argv.slice(2));
