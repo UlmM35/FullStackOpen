@@ -6,7 +6,7 @@ const patients: Patient[] = patientData;
 
 const getPatients = (): NonSensitivePatient[] => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return patients.map(({ ssn, ...rest }) => rest);
+    return patients.map(({ ssn, entries, ...rest }) => rest);
 };
 
 const addPatient = ( entry: NewPatientEntry): Patient => {
@@ -19,7 +19,13 @@ const addPatient = ( entry: NewPatientEntry): Patient => {
     return newPatientEntry;
 };
 
+const findById = (id: string): Patient | undefined => {
+    const entry = patients.find(p => p.id === id);
+    return entry;
+};
+
 export default {
     getPatients,
-    addPatient
+    addPatient,
+    findById
 };
